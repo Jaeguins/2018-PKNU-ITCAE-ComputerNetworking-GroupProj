@@ -25,23 +25,24 @@ public class Game implements GameInterface {
     public void pinging(int x, int y) {
 
     }
-
     @Override
     public void opening(int x, int y) {
-        openingQueue.clear();
-        openingQueue.add(new Node(x,y));
-        for(int i=0;i<width;i++){
-            for(int j=0;j<height;j++){
-                checker[i][j]=false;
+        if(!flags[x][y]) {
+            openingQueue.clear();
+            openingQueue.add(new Node(x, y));
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    checker[i][j] = false;
+                }
             }
+            checker[x][y] = true;
+            openInternal();
         }
-        checker[x][y]=true;
-        openInternal();
     }
 
     @Override
     public void flaging(int x, int y) {
-
+        flags[x][y]=true;
     }
 
     public int openInternal(){
@@ -131,7 +132,10 @@ public class Game implements GameInterface {
     public void printAll(){
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
-                if(baled[i][j]){
+                if(flags[i][j]){
+                    System.out.printf(" P ");
+                }
+                else if(baled[i][j]){
                     if(field[i][j]==0)System.out.printf("    ");
                     else System.out.printf(" %2d ",field[i][j]);
                 }
