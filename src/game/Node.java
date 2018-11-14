@@ -25,8 +25,8 @@ class Node{
     boolean isFlagged(){return flagged;}
     void setFlagged(boolean value){flagged=value;}
     String getStatus(){
-        if(baled) return "**";
         if(flagged) return "P";
+        if(baled) return "**";
         if(value==0) return "  ";
         return String.format("%2d",value);
     }
