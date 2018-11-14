@@ -5,6 +5,7 @@ import Socket.Server;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Game implements GameInterface {
     Server server;
@@ -149,14 +150,5 @@ public class Game implements GameInterface {
     @Override
     public int getStatus(int x, int y) {
         return field[x][y];
-    }
-    public static void main(String args[]){
-        Game g=new Game();
-        g.initiating(20,20,20);
-        Random random=new Random();
-        for(int i=0;i<3;i++){
-            g.opening(random.nextInt(g.width),random.nextInt(g.height));
-        }
-        g.printAll();
     }
 }
