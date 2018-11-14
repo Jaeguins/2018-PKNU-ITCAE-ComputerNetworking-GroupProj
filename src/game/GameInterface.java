@@ -1,4 +1,4 @@
-package Game;
+package game;
 
 public interface GameInterface {
     void pinging(int x,int y);

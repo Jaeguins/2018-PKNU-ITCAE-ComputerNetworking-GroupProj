@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import Socket.Server;
+import socket.Server;
 
 import java.util.LinkedList;
 import java.util.Queue;

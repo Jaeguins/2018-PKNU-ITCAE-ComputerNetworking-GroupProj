@@ -1,4 +1,4 @@
-package tttttt;
+package gui;
 
 import java.awt.Container;
 
@@ -24,11 +24,9 @@ public class test extends JFrame {
 	public void first() {
 		Container cont = getContentPane();
 		JLabel jl = new JLabel("Àú´Â ±è»óÈÆÀÔ´Ï´Ù.");
-		cont.
-		
 		cont.add(jl);
 	}
 	public static void main(String[] args) {
-		
+		new test("?").setVisible(true);
 	}
 }
