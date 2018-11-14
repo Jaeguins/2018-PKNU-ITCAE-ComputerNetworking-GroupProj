@@ -1,4 +1,4 @@
-package Socket;
+package socket;
 
 public interface ClientInterface {
 }

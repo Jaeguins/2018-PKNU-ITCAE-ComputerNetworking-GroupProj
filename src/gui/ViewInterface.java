@@ -1,4 +1,4 @@
-package Gui;
+package gui;
 
 public interface ViewInterface {
     void clickGrid(int x,int y);

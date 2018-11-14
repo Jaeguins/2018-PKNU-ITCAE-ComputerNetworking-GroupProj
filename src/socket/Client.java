@@ -1,4 +1,4 @@
-package Socket;
+package socket;
 
 public class Client {
 	public static void main(String arg[]){

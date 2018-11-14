@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import Socket.Server;
+import socket.Server;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -43,7 +43,8 @@ public class Game implements GameInterface {
 
     @Override
     public void flaging(int x, int y) {
-        flags[x][y]=true;
+        if(!baled[x][y])
+        flags[x][y]=!flags[x][y];
     }
 
     public int openInternal(){
@@ -131,10 +132,16 @@ public class Game implements GameInterface {
         }
     }
     public void printAll(){
+        System.out.print("    ");
         for(int i=0;i<width;i++){
+            System.out.printf(" %2d ",i);
+        }
+        System.out.print("\n");
+        for(int i=0;i<width;i++){
+            System.out.printf("%2d :",i);
             for(int j=0;j<height;j++){
                 if(flags[i][j]){
-                    System.out.printf(" P ");
+                    System.out.printf(" %2s ","P");
                 }
                 else if(baled[i][j]){
                     if(field[i][j]==0)System.out.printf("    ");
