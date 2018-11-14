@@ -42,7 +42,8 @@ public class Game implements GameInterface {
 
     @Override
     public void flaging(int x, int y) {
-        flags[x][y]=true;
+        if(!baled[x][y])
+        flags[x][y]=!flags[x][y];
     }
 
     public int openInternal(){
@@ -130,10 +131,16 @@ public class Game implements GameInterface {
         }
     }
     public void printAll(){
+        System.out.print("    ");
         for(int i=0;i<width;i++){
+            System.out.printf(" %2d ",i);
+        }
+        System.out.print("\n");
+        for(int i=0;i<width;i++){
+            System.out.printf("%2d :",i);
             for(int j=0;j<height;j++){
                 if(flags[i][j]){
-                    System.out.printf(" P ");
+                    System.out.printf(" %2s ","P");
                 }
                 else if(baled[i][j]){
                     if(field[i][j]==0)System.out.printf("    ");
@@ -150,13 +157,5 @@ public class Game implements GameInterface {
     public int getStatus(int x, int y) {
         return field[x][y];
     }
-    public static void main(String args[]){
-        Game g=new Game();
-        g.initiating(20,20,20);
-        Random random=new Random();
-        for(int i=0;i<3;i++){
-            g.opening(random.nextInt(g.width),random.nextInt(g.height));
-        }
-        g.printAll();
-    }
+
 }
