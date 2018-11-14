@@ -5,5 +5,6 @@ public interface GameInterface {
     void opening(int x,int y);
     void flaging(int x,int y);
     void initiating(int width,int height,int mineNum);
-    int getStatus(int x,int y);
+    String getStatus(int x,int y);
+    void printAll();
 }

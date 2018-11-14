@@ -8,30 +8,27 @@ import java.util.Random;
 
 public class Game implements GameInterface {
     Server server;
-    int width,height,mineNum;
-    int[][] field;
-    boolean[][] baled;
-    boolean[][] checker;
-    boolean[][] flags;
-    class Node{
-        public int x,y;
-        public Node(int x,int y){
-            this.x=x;
-            this.y=y;
-        }
-    }
-    Queue<Node>openingQueue=new LinkedList<>();
+    private boolean initialized=true;
+    private int mineNum;
+    private Node[][] field;
+    private boolean[][] checker;
+
+    private Queue<Node>openingQueue=new LinkedList<>();
     @Override
     public void pinging(int x, int y) {
 
     }
     @Override
     public void opening(int x, int y) {
-        if(!flags[x][y]) {
+        if(initialized){
+            initiatingInternal(x,y);
+            initialized=false;
+        }
+        if(!field[x][y].isFlagged()) {
             openingQueue.clear();
-            openingQueue.add(new Node(x, y));
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j++) {
+            openingQueue.add(field[x][y]);
+            for (int i = 0; i < Node.width; i++) {
+                for (int j = 0; j < Node.height; j++) {
                     checker[i][j] = false;
                 }
             }
@@ -42,38 +39,32 @@ public class Game implements GameInterface {
 
     @Override
     public void flaging(int x, int y) {
-        if(!baled[x][y])
-        flags[x][y]=!flags[x][y];
+        if(field[x][y].isBaled())
+        field[x][y].setFlagged(!field[x][y].isFlagged());
     }
-
-    public int openInternal(){
-
+    private int openInternal(){
         while(!openingQueue.isEmpty()){
-            int tX,tY;
             Node t=openingQueue.poll();
-            tX=t.x;
-            tY=t.y;
-            t=null;
-            baled[tX][tY]=true;
-            switch(field[tX][tY]){
+            t.setBaled(false);
+            int tX=t.getX(),tY=t.getY();
+            switch(t.getValue()){
                 case 0:
-                    if(tX-1>=0&&tX-1<width&&tY>=0&&tY<height&&!checker[tX-1][tY]){
-                        openingQueue.add(new Node(tX-1,tY));
+                    if(Node.isInField(tX-1,tY)&&!checker[tX-1][tY]){
+                        openingQueue.add(field[tX-1][tY]);
                         checker[tX-1][tY]=true;
                     }
-                    if(tX+1>=0&&tX+1<width&&tY>=0&&tY<height&&!checker[tX+1][tY]){
-                        openingQueue.add(new Node(tX+1,tY));
+                    if(Node.isInField(tX+1,tY)&&!checker[tX+1][tY]){
+                        openingQueue.add(field[tX+1][tY]);
                         checker[tX+1][tY]=true;
                     }
-                    if(tX>=0&&tX<width&&tY-1>=0&&tY-1<height&&!checker[tX][tY-1]){
-                        openingQueue.add(new Node(tX,tY-1));
+                    if(Node.isInField(tX,tY-1)&&!checker[tX][tY-1]){
+                        openingQueue.add(field[tX][tY-1]);
                         checker[tX][tY-1]=true;
                     }
-                    if(tX>=0&&tX<width&&tY+1>=0&&tY+1<height&&!checker[tX][tY+1]){
-                        openingQueue.add(new Node(tX,tY+1));
+                    if(Node.isInField(tX,tY+1)&&!checker[tX][tY+1]){
+                        openingQueue.add(field[tX][tY+1]);
                         checker[tX][tY+1]=true;
                     }
-
                     break;
                 case -1:
                     return -1;
@@ -86,76 +77,62 @@ public class Game implements GameInterface {
     }
     @Override
     public void initiating(int width,int height,int mineNum) {
-        this.width=width;
-        this.height=height;
         this.mineNum=mineNum;
-        initiatingInternal();
+        Node.width=width;
+        Node.height=height;
     }
-    public void initiatingInternal(){
+    private void initiatingInternal(int x,int y){
         Random random=new Random();
-        field=new int[width][height];
-        baled=new boolean[width][height];
-        checker=new boolean[width][height];
-        flags=new boolean[width][height];
-        for(int i=0;i<width;i++){
-            for(int j=0;j<height;j++){
-                field[i][j]=0;
-                baled[i][j]=false;
-                flags[i][j]=false;
-            }
-        }
+        field=new Node[Node.width][Node.height];
+        checker=new boolean[Node.width][Node.height];
+
+        for(int i=0;i<Node.width;i++)
+            for(int j=0;j<Node.height;j++)
+                field[i][j]=new Node(i,j);
         for(int i=0;i<mineNum;i++){
             boolean unLocated=true;
             int tempX,tempY;
             while(unLocated){
-                tempX=random.nextInt(width);
-                tempY=random.nextInt(height);
-                if(field[tempX][tempY]==0){
-                    field[tempX][tempY]=-1;
+                tempX=random.nextInt(Node.width);
+                tempY=random.nextInt(Node.height);
+                if(tempX!=x&&tempY!=y&&field[tempX][tempY].getValue()==0){
+                    field[tempX][tempY].setValue(-1);
                     unLocated=false;
                 }
             }
         }
-        for(int i=0;i<width;i++){
-            for(int j=0;j<height;j++){
-                if(field[i][j]==0){
+        for(int i=0;i<Node.width;i++)
+            for(int j=0;j<Node.height;j++)
+                if(field[i][j].getValue()==0){
                     int count=0;
-                    for(int k=-1;k<2;k++){
-                        for(int l=-1;l<2;l++){
-                            if(i+k>=0&&j+l>=0&&i+k<width&&j+l<height&&field[i+k][j+l]==-1)count+=1;
-                        }
-                    }
-                    field[i][j]=count;
+                    for(int k=-1;k<2;k++)
+                        for(int l=-1;l<2;l++)
+                            if(Node.isInField(i+k,j+l)&&field[i+k][j+l].getValue()==-1)count+=1;
+                    field[i][j].setValue(count);
                 }
-            }
-        }
     }
+    @Override
     public void printAll(){
-        System.out.print("    ");
-        for(int i=0;i<width;i++){
-            System.out.printf(" %2d ",i);
-        }
-        System.out.print("\n");
-        for(int i=0;i<width;i++){
-            System.out.printf("%2d :",i);
-            for(int j=0;j<height;j++){
-                if(flags[i][j]){
-                    System.out.printf(" %2s ","P");
-                }
-                else if(baled[i][j]){
-                    if(field[i][j]==0)System.out.printf("    ");
-                    else System.out.printf(" %2d ",field[i][j]);
-                }
-                else {
-                    System.out.print(" ** ");
-                }
-            }
+        System.out.print("早  ");
+        for(int i=0;i<Node.width;i++)
+            System.out.printf("早%2d",i);
+        System.out.print('\n');
+        for(int i=0;i<Node.width+1;i++)
+            System.out.print("池式");
+        System.out.print('\n');
+        for(int i=0;i<Node.width;i++){
+            System.out.printf("早%2d",i);
+            for(int j=0;j<Node.height;j++)
+                System.out.printf("早%s",field[i][j].getStatus());
+            System.out.print("\n");
+            for(int j=0;j<Node.height+1;j++)
+                System.out.print("池式");
             System.out.print("\n");
         }
     }
     @Override
-    public int getStatus(int x, int y) {
-        return field[x][y];
+    public String getStatus(int x, int y) {
+        return field[x][y].getStatus();
     }
 
 }
