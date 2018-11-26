@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-	public static void main(String[] args)
+    public static void main(String[] args)
     {
         try{
             ServerSocket ms_socket = new ServerSocket(8888);
@@ -14,8 +14,8 @@ public class Server {
 
             OutputStream output_data = mc_socket.getOutputStream();
 
-            String sendstr = "Welcome to Mine";
-            output_data.write(sendstr.getBytes());
+            String send_str = "Welcome to Mine";
+            output_data.write(send_str.getBytes());
 
             ms_socket.close();
             mc_socket.close();
