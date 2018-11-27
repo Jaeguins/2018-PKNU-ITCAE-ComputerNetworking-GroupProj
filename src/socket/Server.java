@@ -12,9 +12,9 @@ public class Server {
     {
         try{
             ServerSocket ms_socket = new ServerSocket(8888);
-            System.out.println("네트워크 접속대기중...\n");
+            System.out.println("네트워크 접속대기중...");
             Socket mc_socket = ms_socket.accept();
-            System.out.println("연결 완료!\n");
+            System.out.println("연결 완료!");
 
             InputStream in = mc_socket.getInputStream();
             OutputStream out = mc_socket.getOutputStream();
@@ -23,17 +23,25 @@ public class Server {
             out.write(send.getBytes());;
             byte[] rec_b = new byte[100];
             String rec;
-            int a, b;
 
-            do{
+            while(true){
                 in.read(rec_b);
                 rec = new String(rec_b);
-                String moon[] = rec.split("/");
+                String[] moon = rec.split("/");
                 if(moon[0].equals("add")){
-                    send =  test.gob(1, 1);
+                    send = test.gob(Integer.parseInt(moon[1]), Integer.parseInt(moon[2])) + "";
                 }
+                else if(moon[0].equals("exit")){
+                    break;
+                }
+                else{
+                    send = "잘못된 입력입니다!";
+                }
+                out.write(send.getBytes());;
             }
 
+            byte[] end = {0};
+            out.write(end);
             ms_socket.close();
             mc_socket.close();
         }catch (IOException e){
