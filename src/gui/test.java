@@ -1,16 +1,21 @@
-package gui;
+package tttttt;
 
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class test extends JFrame {
 
 	
-	
-	public test(String x){
-		super("±è»óÈÆ ¤´");
+	public test(){
+		super("Áö·ÚÃ£±â");
 		init();
 		first();
 	}
@@ -22,11 +27,15 @@ public class test extends JFrame {
 	}
 	
 	public void first() {
+		setLayout(null);
 		Container cont = getContentPane();
-		JLabel jl = new JLabel("Àú´Â ±è»óÈÆÀÔ´Ï´Ù.");
-		cont.add(jl);
+		JPanel jp = new jp1(cont);
+		cont.add(jp);
+		
+		
 	}
 	public static void main(String[] args) {
-		new test("?").setVisible(true);
+		test ts = new test();
 	}
 }
+
