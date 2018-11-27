@@ -1,6 +1,6 @@
 package socket;
 
-import game.calculator;
+import game.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,7 +30,7 @@ public class Server {
                 rec = new String(rec_b);
                 String moon[] = rec.split("/");
                 if(moon[0].equals("add")){
-                    send =  calculator.gob(1, 1);
+                    send =  test.gob(1, 1);
                 }
             }
 

@@ -1,6 +1,6 @@
 package game;
 
-public class calculator {
+public class test {
     int res;
 
     public int gob(int a, int b) {
