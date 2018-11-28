@@ -1,4 +1,4 @@
-package tttttt;
+package gui;
 
 //지뢰 방 생성 화면
 

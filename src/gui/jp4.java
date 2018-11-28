@@ -1,4 +1,4 @@
-package tttttt;
+package gui;
 
 // 지뢰 패배화면
 

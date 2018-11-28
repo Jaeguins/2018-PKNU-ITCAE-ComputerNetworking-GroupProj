@@ -1,4 +1,4 @@
-package tttttt;
+package gui;
 // 초기화면
 import java.awt.Color;
 import java.awt.Container;

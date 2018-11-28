@@ -1,4 +1,4 @@
-package tttttt;
+package gui;
 //참가 화면
 import java.awt.Color;
 import java.awt.Container;

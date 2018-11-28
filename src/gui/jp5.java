@@ -1,4 +1,4 @@
-package tttttt;
+package gui;
 
 //연결실패 화면
 
