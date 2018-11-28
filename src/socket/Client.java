@@ -25,7 +25,7 @@ public class Client {
             String send;
 
             while(true){
-                System.out.println("Value(연산/값/값/) : ");
+                System.out.println("두 수를 연산(입력: 연산/값/값/, 탈출: exit/) : ");
                 send = sc.nextLine();
                 out.write(send.getBytes());;
                 in.read(rec_b);
@@ -34,6 +34,7 @@ public class Client {
                 }
                 rec = new String(rec_b);
                 System.out.println(rec);
+                Arrays.fill(rec_b, (byte)0);
             }
 
             mc_socket.close();

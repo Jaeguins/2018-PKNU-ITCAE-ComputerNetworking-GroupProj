@@ -42,6 +42,7 @@ public class Server {
 
             byte[] end = {0};
             out.write(end);
+            System.out.println("연결 종료!");
             ms_socket.close();
             mc_socket.close();
         }catch (IOException e){
