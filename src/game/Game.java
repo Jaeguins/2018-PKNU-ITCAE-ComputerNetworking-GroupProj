@@ -1,7 +1,6 @@
 package game;
 
 import socket.Server;
-
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -12,14 +11,14 @@ public class Game implements GameInterface {
     private int mineNum;
     private Node[][] field;
     private boolean[][] checker;
-
+    static char diff='/';
+    private int nowTurn=0;
+    private int totalPlayer;
     private Queue<Node>openingQueue=new LinkedList<>();
-    @Override
-    public void pinging(int x, int y) {
-
+    private void pinging(int x, int y,boolean status) {
+        server.broadCast("ping"+diff+x+diff+y+diff+status+diff);
     }
-    @Override
-    public void opening(int x, int y) {
+    private void opening(int x, int y) {
         if(initialized){
             initiatingInternal(x,y);
             initialized=false;
@@ -36,16 +35,17 @@ public class Game implements GameInterface {
             openInternal();
         }
     }
-
-    @Override
-    public void flaging(int x, int y) {
-        if(field[x][y].isBaled())
-        field[x][y].setFlagged(!field[x][y].isFlagged());
+    private void flaging(int x, int y) {
+        if(field[x][y].isBaled()) {
+            field[x][y].setFlagged(!field[x][y].isFlagged());
+            server.broadCast("flag" + diff + x + diff + y + diff+field[x][y].isFlagged()+diff);
+        }
     }
     private int openInternal(){
         while(!openingQueue.isEmpty()){
             Node t=openingQueue.poll();
             t.setBaled(false);
+            server.broadCast("open"+diff+t.getX()+diff+t.getY()+diff);
             int tX=t.getX(),tY=t.getY();
             switch(t.getValue()){
                 case 0:
@@ -72,15 +72,40 @@ public class Game implements GameInterface {
         }
         return 0;
     }
+    private void nextTurn(){
+        nowTurn=(nowTurn+1)%totalPlayer;
+    }
+
     public void gameOver(){
 
     }
     @Override
-    public void initiating(int width,int height,int mineNum) {
+    public void initiating(int width,int height,int mineNum,int totalPlayer) {
+        this.totalPlayer=totalPlayer;
         this.mineNum=mineNum;
         Node.width=width;
         Node.height=height;
     }
+
+    @Override
+    public void leftClick(int x, int y, int playerNum) {
+        if(playerNum==nowTurn){
+            opening(x,y);
+            nextTurn();
+        }else{
+            pinging(x,y,true);
+        }
+    }
+
+    @Override
+    public void rightClick(int x, int y, int playerNum) {
+        if(playerNum==nowTurn){
+            flaging(x,y);
+        }else{
+            pinging(x,y,false);
+        }
+    }
+
     private void initiatingInternal(int x,int y){
         Random random=new Random();
         field=new Node[Node.width][Node.height];
