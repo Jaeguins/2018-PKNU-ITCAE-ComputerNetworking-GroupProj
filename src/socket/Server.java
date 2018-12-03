@@ -9,33 +9,56 @@ import java.util.Arrays;
 
 public class Server implements ServerInterface{
     ServerSocket s_socket;
-    Socket c_socket;
+    Socket c_socket[] = new Socket[4];
+    Socket sc_socket;
     byte[] b_send = new byte[100], b_rec = new byte[100];
     String send, rec;
     InputStream in;
     OutputStream out;
+    int n_socket = 0;
 
-    public void OpenServer() throws IOException{
-        s_socket = new ServerSocket(8888);
-        ServerAccept();
+    public class ServerThread extends Thread{
+        int i = 0;
+        @Override
+        public void run() {
+            super.run();
+            while(true) {
+                if (i < 2) {
+                    FirstConnecct();
+                    i++;
+                    continue;
+                }
+                break;
+            }
+        }
     }
 
-    public void ServerAccept(){
+    public void OpenServer()throws IOException{
+        s_socket = new ServerSocket(8888);
+        ServerThread th = new ServerThread();
+        th.start();
+    }
+
+    public void FirstConnecct(){
         try{
-            System.out.println("네트워크 접속대기중...");
-            c_socket = s_socket.accept();
-            System.out.println("연결 완료!");
+            System.out.println("유저 접속대기중...");
+            c_socket[n_socket] = s_socket.accept();
+            System.out.println("유저 " + (n_socket + 1) + " 접속완료!...");
+            b_send[0] = (byte)n_socket;
+            out = c_socket[n_socket].getOutputStream();
+            out.write(b_send);
+            send = "환영합니다!";
+            PushMsg(n_socket);
+            n_socket++;
         }
         catch (IOException e){
             e.printStackTrace();
         }
-        send = "어서오세요! 지뢰매스터에";
-        PushMsg();
     }
 
-    public void PushMsg(){
+    public void PushMsg(int index){
         try{
-            out = c_socket.getOutputStream();
+            out = c_socket[index].getOutputStream();
             out.write(send.getBytes());;
         }
         catch (IOException e){
@@ -44,17 +67,29 @@ public class Server implements ServerInterface{
     }
 
     public void PullMsg(){
+        Arrays.fill(b_rec, (byte)0);
         try{
-            in = c_socket.getInputStream();
-            in.read(b_rec);;
+            in = sc_socket.getInputStream();
+            in.read(b_rec);
         }
         catch (IOException e){
             e.printStackTrace();
         }
+        ByteToString();
     }
 
     public void ByteToString(){
         rec = new String(b_rec);
-        Arrays.fill(b_rec, (byte)0);
+        System.out.println(rec);
+    }
+
+    public void CloseServer()throws IOException{
+        s_socket.close();
+    }
+
+    public void BroadCast(String msg){
+        send = "서버 알림: " + msg;
+        for(int i = 0; i < n_socket; i++)
+            PushMsg(i);
     }
 }

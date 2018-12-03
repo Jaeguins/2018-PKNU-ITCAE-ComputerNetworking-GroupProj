@@ -8,11 +8,6 @@ public class tester2 {
 
         try{
             user.EnterMyself();
-            user.PullMsg();
-            user.ByteToString();
-            System.out.println(user.rec);
-
-            user.c_socket.close();
         }
         catch (IOException e){
             e.printStackTrace();
