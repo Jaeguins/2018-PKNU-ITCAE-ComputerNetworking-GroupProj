@@ -33,10 +33,24 @@ public class Server implements ServerInterface{
         }
     }
 
+    public class ServerThread2 extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            while(true){
+                PullMsg();
+                if(rec.equals("end"))
+                    break;
+            }
+        }
+    }
+
     public void OpenServer()throws IOException{
         s_socket = new ServerSocket(8888);
         ServerThread th = new ServerThread();
         th.start();
+        ServerThread2 th2 = new ServerThread2();
+        th2.start();
     }
 
     public void FirstConnecct(){
@@ -47,8 +61,6 @@ public class Server implements ServerInterface{
             b_send[0] = (byte)n_socket;
             out = c_socket[n_socket].getOutputStream();
             out.write(b_send);
-            send = "환영합니다!";
-            PushMsg(n_socket);
             n_socket++;
         }
         catch (IOException e){
@@ -83,13 +95,18 @@ public class Server implements ServerInterface{
         System.out.println(rec);
     }
 
-    public void CloseServer()throws IOException{
-        s_socket.close();
+    public void StoCmsg(int UserNum, String msg){
+        send = msg;
+        PushMsg(UserNum);
     }
 
     public void BroadCast(String msg){
         send = "서버 알림: " + msg;
         for(int i = 0; i < n_socket; i++)
             PushMsg(i);
+    }
+
+    public void CloseServer()throws IOException{
+        s_socket.close();
     }
 }

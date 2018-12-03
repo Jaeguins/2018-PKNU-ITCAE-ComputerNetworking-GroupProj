@@ -5,12 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Client implements ClientInterface {
-    Scanner sc = new Scanner(System.in);
     Socket c_socket;
-    byte[] b_send = new byte[100], b_rec = new byte[100];
+    byte[] b_rec = new byte[100];
     String send, rec;
     InputStream in;
     OutputStream out;
@@ -22,6 +20,8 @@ public class Client implements ClientInterface {
             super.run();
             while(true){
                 PullMsg();
+                if(rec.equals("end"))
+                    break;
             }
         }
     }
@@ -48,7 +48,7 @@ public class Client implements ClientInterface {
     public void PushMsg(){
         try{
             out = c_socket.getOutputStream();
-            out.write(send.getBytes());;
+            out.write(send.getBytes());
         }
         catch (IOException e){
             e.printStackTrace();
@@ -70,6 +70,11 @@ public class Client implements ClientInterface {
     public void ByteToString(){
         rec = new String(b_rec);
         System.out.println(rec);
+    }
+
+    public void CtoSmsg(String msg){
+        send = msg;
+        PushMsg();
     }
 
     public void CloseClinet()throws IOException{
