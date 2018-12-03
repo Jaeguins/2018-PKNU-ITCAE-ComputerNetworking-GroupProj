@@ -11,56 +11,25 @@ public class Server implements ServerInterface{
     ServerSocket s_socket;
     Socket c_socket[] = new Socket[4];
     Socket sc_socket;
-    byte[] b_send = new byte[100], b_rec = new byte[100];
-    String send, rec;
+    byte[] data = new byte[100];
+    String s_msg;
     InputStream in;
     OutputStream out;
     int n_socket = 0;
 
-    public class ServerThread extends Thread{
-        int i = 0;
-        @Override
-        public void run() {
-            super.run();
-            while(true) {
-                if (i < 2) {
-                    FirstConnecct();
-                    i++;
-                    continue;
-                }
-                break;
-            }
-        }
-    }
-
-    public class ServerThread2 extends Thread{
-        @Override
-        public void run() {
-            super.run();
-            while(true){
-                PullMsg();
-                if(rec.equals("end"))
-                    break;
-            }
-        }
-    }
-
     public void OpenServer()throws IOException{
         s_socket = new ServerSocket(8888);
-        ServerThread th = new ServerThread();
-        th.start();
-        ServerThread2 th2 = new ServerThread2();
-        th2.start();
+        FirstConnecct();
     }
 
     public void FirstConnecct(){
         try{
             System.out.println("user standby...");
             c_socket[n_socket] = s_socket.accept();
-            System.out.println("user " + (n_socket + 1) + " connected!...");
-            b_send[0] = (byte)n_socket;
+            System.out.println("user " + (n_socket) + " connected!...");
+            data[0] = (byte)n_socket;
             out = c_socket[n_socket].getOutputStream();
-            out.write(b_send);
+            out.write(data);
             n_socket++;
         }
         catch (IOException e){
@@ -71,7 +40,7 @@ public class Server implements ServerInterface{
     public void PushMsg(int index){
         try{
             out = c_socket[index].getOutputStream();
-            out.write(send.getBytes());;
+            out.write(s_msg.getBytes());
         }
         catch (IOException e){
             e.printStackTrace();
@@ -79,10 +48,10 @@ public class Server implements ServerInterface{
     }
 
     public void PullMsg(){
-        Arrays.fill(b_rec, (byte)0);
+        Arrays.fill(data, (byte)0);
         try{
-            in = sc_socket.getInputStream();
-            in.read(b_rec);
+            in = c_socket[0].getInputStream();
+            in.read(data);
         }
         catch (IOException e){
             e.printStackTrace();
@@ -91,17 +60,17 @@ public class Server implements ServerInterface{
     }
 
     public void ByteToString(){
-        rec = new String(b_rec);
-        System.out.println(rec);
+        s_msg = new String(data);
+        System.out.println(s_msg);
     }
 
     public void StoCmsg(int UserNum, String msg){
-        send = msg;
+        s_msg = msg;
         PushMsg(UserNum);
     }
 
     public void BroadCast(String msg){
-        send = "server : " + msg;
+        s_msg = msg;
         for(int i = 0; i < n_socket; i++)
             PushMsg(i);
     }
