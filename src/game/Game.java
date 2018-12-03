@@ -17,7 +17,7 @@ public class Game implements GameInterface {
     private int totalPlayer;
     private Queue<Node>openingQueue=new LinkedList<>();
     private void pinging(int x, int y,boolean status) {
-        server.broadCast("ping"+diff+x+diff+y+diff+status+diff);
+        server.BroadCast("ping"+diff+x+diff+y+diff+status+diff);
     }
     private void opening(int x, int y) {
         if(initialized){
@@ -39,14 +39,14 @@ public class Game implements GameInterface {
     private void flaging(int x, int y) {
         if(field[x][y].isBaled()) {
             field[x][y].setFlagged(!field[x][y].isFlagged());
-            server.broadCast("flag" + diff + x + diff + y + diff+field[x][y].isFlagged()+diff);
+            server.BroadCast("flag" + diff + x + diff + y + diff+field[x][y].isFlagged()+diff);
         }
     }
     private int openInternal(){
         while(!openingQueue.isEmpty()){
             Node t=openingQueue.poll();
             t.setBaled(false);
-            server.broadCast("open"+diff+t.getX()+diff+t.getY()+diff);
+            server.BroadCast("open"+diff+t.getX()+diff+t.getY()+diff);
             int tX=t.getX(),tY=t.getY();
             switch(t.getValue()){
                 case 0:

@@ -14,7 +14,7 @@ public class Client implements ClientInterface {
     String send, rec;
     InputStream in;
     OutputStream out;
-    int index; // 클라이언트 번호
+    int index; // client number
 
     public class ClientThread extends Thread{
         @Override
@@ -36,7 +36,7 @@ public class Client implements ClientInterface {
             e.printStackTrace();
         }
         index = (int)b_rec[0];
-        System.out.println("클라이언트번호: " + index);
+        System.out.println("clientNum: " + index);
         ClientThread th = new ClientThread();
         th.start();
     }

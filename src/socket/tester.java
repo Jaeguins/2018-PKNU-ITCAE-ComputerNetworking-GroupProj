@@ -14,7 +14,7 @@ public class tester {
             host.OpenServer();
             user.EnterMyself();
             while(true){
-                System.out.println("서버 입력: ");
+                System.out.println("server Input: ");
                 msg = sc.nextLine();
                 host.BroadCast(msg);
             }

@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class InitialPanel extends JPanel{
-	
 	public InitialPanel(Container cont) {
 		super();
 		setBounds(0, 0, 300, 200);
@@ -64,6 +63,7 @@ class JoinAction implements MouseListener {
 	}
 
 }
+
 class Creator implements MouseListener{
 
 	Container cont;

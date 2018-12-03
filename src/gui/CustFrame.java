@@ -1,4 +1,5 @@
 package gui;
+import Main.Main;
 
 import java.awt.Container;
 
@@ -6,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class CustFrame extends JFrame {
-
 	
 	public CustFrame(){
 		super("Áö·ÚÃ£±â");

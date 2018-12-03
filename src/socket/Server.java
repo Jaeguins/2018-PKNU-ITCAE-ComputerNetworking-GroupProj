@@ -41,13 +41,13 @@ public class Server implements ServerInterface{
 
     public void FirstConnecct(){
         try{
-            System.out.println("유저 접속대기중...");
+            System.out.println("user standby...");
             c_socket[n_socket] = s_socket.accept();
-            System.out.println("유저 " + (n_socket + 1) + " 접속완료!...");
+            System.out.println("user " + (n_socket + 1) + " connected!...");
             b_send[0] = (byte)n_socket;
             out = c_socket[n_socket].getOutputStream();
             out.write(b_send);
-            send = "환영합니다!";
+            send = "welcome!";
             PushMsg(n_socket);
             n_socket++;
         }
@@ -88,7 +88,7 @@ public class Server implements ServerInterface{
     }
 
     public void BroadCast(String msg){
-        send = "서버 알림: " + msg;
+        send = "server : " + msg;
         for(int i = 0; i < n_socket; i++)
             PushMsg(i);
     }

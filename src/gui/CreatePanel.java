@@ -5,6 +5,8 @@ package gui;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,9 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class CreatePanel extends JPanel{
-	
-	public CreatePanel(Container cont) {
+	Container cont;
+	public CreatePanel(Container conte) {
 		super();
+		this.cont=conte;
 		setBounds(0, 0, 300, 200);
 		setBackground(new Color(150, 100, 80));
 		setLayout(null);
@@ -31,14 +34,42 @@ public class CreatePanel extends JPanel{
 		widthlabel.setBounds(10, 10, 50, 20);
 		heightlabel.setBounds(10, 50, 50, 20);
 		bomblabel.setBounds(10, 100, 50, 20);
-	
+		create.setBounds(10,150,50,20);
 		add(width);
 		add(height);
 		add(bomb);
 		add(widthlabel);
 		add(heightlabel);
 		add(bomblabel);
-		
+		add(create);
+		create.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				cont.removeAll();
+				cont.repaint();
+				cont.add(new GamePanel(cont));
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+
+			}
+		});
 	}
 
 }
