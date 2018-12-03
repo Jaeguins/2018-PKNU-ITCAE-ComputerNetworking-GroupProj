@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Tester {
     public static void main(String args[]){
         Game g=new Game();
-        g.initiating(20,20,20);
+        g.initiating(20,20,20,1);
         Scanner scanner=new Scanner(System.in);
         int x,y;
         while(true){
@@ -13,12 +13,12 @@ public class Tester {
                 case "o":
                     x=scanner.nextInt();
                     y=scanner.nextInt();
-                    g.opening(x,y);
+                    g.leftClick(x,y,0);
                     break;
                 case "f":
                     x=scanner.nextInt();
                     y=scanner.nextInt();
-                    g.flaging(x,y);
+                    g.rightClick(x,y,0);
                     break;
                 default:
                     System.out.println("wrong input");
