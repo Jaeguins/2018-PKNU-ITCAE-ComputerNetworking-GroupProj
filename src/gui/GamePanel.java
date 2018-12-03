@@ -1,5 +1,5 @@
 package gui;
 //Áö·ÚÈ­¸é??
-public class jp7 {
+public class GamePanel {
 
 }

@@ -1,20 +1,21 @@
 package gui;
 
+// Áö·Ú ÆÐ¹èÈ­¸é
+
 import java.awt.Color;
 import java.awt.Container;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-//Áö·Ú ½Â¸®È­¸é
 
-public class jp3 extends JPanel{
+public class LosePanel extends JPanel{
 	
-	public jp3(Container cont) {
+	public LosePanel(Container cont) {
 		super();
 		setBounds(0, 0, 300, 200);
 		setBackground(new Color(128, 100, 190));
-		JLabel victory = new JLabel("½Â¸®");
+		JLabel lose = new JLabel("ÆÐ¹è");
 		
 	}
 	

@@ -29,7 +29,7 @@ public class test extends JFrame {
 	public void first() {
 		setLayout(null);
 		Container cont = getContentPane();
-		JPanel jp = new jp1(cont);
+		JPanel jp= new InitialPanel(cont);
 		cont.add(jp);
 		
 		

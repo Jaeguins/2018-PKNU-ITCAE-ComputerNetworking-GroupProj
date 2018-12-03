@@ -1,21 +1,20 @@
 package gui;
 
-//¿¬°á½ÇÆÐ È­¸é
-
 import java.awt.Color;
 import java.awt.Container;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+//Áö·Ú ½Â¸®È­¸é
 
-public class jp5 extends JPanel{
+public class WinPanel extends JPanel{
 	
-	public jp5(Container cont) {
+	public WinPanel(Container cont) {
 		super();
 		setBounds(0, 0, 300, 200);
 		setBackground(new Color(128, 100, 190));
-		JLabel disconnect = new JLabel("disconnect");
+		JLabel victory = new JLabel("½Â¸®");
 		
 	}
 	

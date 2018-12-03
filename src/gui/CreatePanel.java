@@ -11,9 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class jp6 extends JPanel{
+public class CreatePanel extends JPanel{
 	
-	public jp6(Container cont) {
+	public CreatePanel(Container cont) {
 		super();
 		setBounds(0, 0, 300, 200);
 		setBackground(new Color(150, 100, 80));
