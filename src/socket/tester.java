@@ -16,12 +16,12 @@ public class tester {
             host.OpenServer();
             user.EnterMyself();
             while(true){
-                System.out.println("S->C입력: ");
+                System.out.println("S->C input: ");
                 msg = sc.nextLine();
                 num = sc2.nextInt();
                 host.StoCmsg(num, msg);
 
-                System.out.println("C->S입력: ");
+                System.out.println("C->S input: ");
                 msg = sc.nextLine();
                 user.CtoSmsg(msg);
             }
