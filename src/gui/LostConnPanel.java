@@ -15,7 +15,7 @@ public class LostConnPanel extends JPanel{
 		super();
 		setBounds(0, 0, 300, 200);
 		setBackground(new Color(128, 100, 190));
-		JLabel disconnect = new JLabel("disconnect");
+		JLabel disconnect = new JLabel("connection failed");
 		
 	}
 	
