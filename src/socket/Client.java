@@ -8,23 +8,48 @@ import java.util.Arrays;
 
 public class Client implements ClientInterface {
     Socket c_socket;
-    byte[] data = new byte[100];
-    String c_msg;
-    InputStream in;
-    OutputStream out;
     int index; // client num
+    boolean ing = true;
+    ClientThread th;
+
+    public class  ClientThread extends Thread{
+        int FirstConnect = 0;
+        byte[] data = new byte[100];
+        InputStream in;
+        OutputStream out;
+        @Override
+        public void run() {
+            super.run();
+            try{
+                while (ing){
+                    if(FirstConnect == 0){
+                        th.in = c_socket.getInputStream();
+                        th.in.read(th.data);
+                        index = (int)th.data[0];
+                        System.out.println("My client num: " + index);
+                        FirstConnect = 1;
+                        continue;
+                    }
+                    PullMsg();
+                }
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void EnterRoom(String ip)throws IOException{
         c_socket = new Socket(ip, 8888);
-        PullMsg();
-        index = (int)data[0];
-        System.out.println("client num: " + index);
+        th = new ClientThread();
+        th.start();
+        index = th.data[0];
     }
 
-    public void PushMsg(){
+    public void PushMsg(String msg){
         try{
-            out = c_socket.getOutputStream();
-            out.write(c_msg.getBytes());
+            th.out = c_socket.getOutputStream();
+            th.out.write(msg.getBytes());
         }
         catch (IOException e){
             e.printStackTrace();
@@ -32,10 +57,10 @@ public class Client implements ClientInterface {
     }
 
     public void PullMsg(){
-        Arrays.fill(data, (byte)0);
+        Arrays.fill(th.data, (byte)0);
         try{
-            in = c_socket.getInputStream();
-            in.read(data);
+            th.in = c_socket.getInputStream();
+            th.in.read(th.data);
         }
         catch (IOException e){
             e.printStackTrace();
@@ -44,13 +69,12 @@ public class Client implements ClientInterface {
     }
 
     public void ByteToString(){
-        c_msg = new String(data);
-        System.out.println(c_msg);
+        String msg = new String(th.data);
+        System.out.println("Server: " + msg);
     }
 
     public void CtoSmsg(String msg){
-        c_msg = msg;
-        PushMsg();
+        PushMsg(msg);
     }
 
     public void CloseClient()throws IOException{
