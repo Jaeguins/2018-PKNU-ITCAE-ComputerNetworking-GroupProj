@@ -43,7 +43,6 @@ public class Client implements ClientInterface {
         c_socket = new Socket(ip, 8888);
         th = new ClientThread();
         th.start();
-        index = th.data[0];
     }
 
     public void PushMsg(String msg){
