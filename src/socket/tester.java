@@ -11,13 +11,14 @@ public class tester {
         String msg;
 
         try{
-            host.OpenServer();
-            user.EnterMyself();
-            while(true){
-                System.out.println("server Input: ");
-                msg = sc.nextLine();
-                host.BroadCast(msg);
-            }
+                host.OpenServer();
+                user.EnterRoom("127.0.0.1");
+                while(true){
+                    msg = sc.nextLine();
+                    host.BroadCast(msg);
+                    msg = sc.nextLine();
+                    user.CtoSmsg(msg);
+                }
         }
         catch (IOException e){
             e.printStackTrace();
