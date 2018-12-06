@@ -5,8 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
+import Main.Main;
 
 public class Client implements ClientInterface {
+    Main Ju_Client = Main.Instance;
     Socket c_socket;
     int index; // client num
     boolean ing = true;

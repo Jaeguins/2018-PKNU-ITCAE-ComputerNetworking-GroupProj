@@ -6,8 +6,10 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
+import Main.Main;
 
 public class Server implements ServerInterface{
+    Main Ju_Server = Main.Instance;
     ServerSocket s_socket;
     Socket c_socket[] = new Socket[2];
     ServerThread[] th = new ServerThread[2];
