@@ -17,6 +17,7 @@ public class CustFrame extends JFrame {
 	public void init() {
 		setBounds(100,100,300,200);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		setVisible(true);	
 	}
 	

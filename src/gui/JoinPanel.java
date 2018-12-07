@@ -52,8 +52,7 @@ public class JoinPanel extends JPanel{
 			Main inst=Main.Instance;
 			inst.client=new Client();
 			try {
-				inst.client.EnterRoom(ip.getText(), Integer.parseInt(port.getText()));
-				cont.add(new GamePanel(cont));
+				inst.client.EnterRoom(ip.getText());
 			}catch(IOException ex){
 				ex.printStackTrace();
 				cont.add(new LostConnPanel(cont));

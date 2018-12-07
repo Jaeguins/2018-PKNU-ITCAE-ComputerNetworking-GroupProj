@@ -5,11 +5,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.Scanner;
+
 import Main.Main;
+import gui.GamePanel;
 
 public class Client implements ClientInterface {
-    Main Ju_Client = Main.Instance;
+    Main inst = Main.Instance;
     Socket c_socket;
+    GamePanel view;
     int index; // client num
     boolean ing = true;
     ClientThread th;
@@ -17,22 +21,49 @@ public class Client implements ClientInterface {
     public class  ClientThread extends Thread{
         int FirstConnect = 0;
         byte[] data = new byte[100];
-        InputStream in;
+        Scanner scanner;
         OutputStream out;
         @Override
         public void run() {
             super.run();
+            System.out.println("enetered room :"+c_socket.getInetAddress());
             try{
+                scanner = new Scanner(c_socket.getInputStream());
+                int playerNum=scanner.nextInt(),width=scanner.nextInt(),height=scanner.nextInt(),mineNum=scanner.nextInt();
+                inst.frame.add(new GamePanel(inst.frame.getContentPane(),width,height));
+                view=(GamePanel)(inst.nowActivePane);
+                view.playerNum=playerNum;
                 while (ing){
-                    if(FirstConnect == 0){
-                        th.in = c_socket.getInputStream();
-                        th.in.read(th.data);
-                        index = (int)th.data[0];
-                        System.out.println("My client num: " + index);
-                        FirstConnect = 1;
-                        continue;
+                    int x=0,y=0;
+                    String type=scanner.next();
+                    switch(type){
+                        case "start":
+                            view.started=true;
+                            System.out.println("game started");
+                            break;
+                        case "open":
+                            x=scanner.nextInt();
+                            y=scanner.nextInt();
+                            view.buttons[x][y].Open(scanner.nextInt());
+                            break;
+                        case "ping":
+                            x=scanner.nextInt();
+                            y=scanner.nextInt();
+                            view.buttons[x][y].Ping(scanner.nextBoolean());
+                            break;
+                        case "flag":
+                            x=scanner.nextInt();
+                            y=scanner.nextInt();
+                            view.buttons[x][y].Flag(scanner.nextBoolean());
+                            break;
+                        case "win":
+                            view.gameOver(true);
+                            return;
+                        case "lose":
+                            view.gameOver(false);
+                            return;
                     }
-                    PullMsg();
+                    System.out.println("click received"+x+" "+y+" : "+type);
                 }
             }
             catch (IOException e){
@@ -55,18 +86,6 @@ public class Client implements ClientInterface {
         catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-    public void PullMsg(){
-        Arrays.fill(th.data, (byte)0);
-        try{
-            th.in = c_socket.getInputStream();
-            th.in.read(th.data);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        ByteToString();
     }
 
     public void ByteToString(){

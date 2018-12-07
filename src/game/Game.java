@@ -8,14 +8,19 @@ import java.util.Scanner;
 
 public class Game implements GameInterface {
     Server server;
+    public int width, height;
     private boolean initialized=true;
-    private int mineNum;
+    public int mineNum;
     private Node[][] field;
     private boolean[][] checker;
-    static char diff='/';
+    static char diff=' ';
     private int nowTurn=0;
+    private int remains=0;
     private int totalPlayer;
     private Queue<Node>openingQueue=new LinkedList<>();
+    public Game(Server server){
+        this.server=server;
+    }
     private void pinging(int x, int y,boolean status) {
         server.BroadCast("ping"+diff+x+diff+y+diff+status+diff);
     }
@@ -46,28 +51,27 @@ public class Game implements GameInterface {
         while(!openingQueue.isEmpty()){
             Node t=openingQueue.poll();
             t.setBaled(false);
-            server.BroadCast("open"+diff+t.getX()+diff+t.getY()+diff);
+            remains-=1;
+            if(remains==mineNum){
+                gameOver(true);
+            }
+            server.BroadCast("open"+diff+t.getX()+diff+t.getY()+diff+t.getValue()+diff);
             int tX=t.getX(),tY=t.getY();
+
             switch(t.getValue()){
                 case 0:
-                    if(Node.isInField(tX-1,tY)&&!checker[tX-1][tY]){
-                        openingQueue.add(field[tX-1][tY]);
-                        checker[tX-1][tY]=true;
-                    }
-                    if(Node.isInField(tX+1,tY)&&!checker[tX+1][tY]){
-                        openingQueue.add(field[tX+1][tY]);
-                        checker[tX+1][tY]=true;
-                    }
-                    if(Node.isInField(tX,tY-1)&&!checker[tX][tY-1]){
-                        openingQueue.add(field[tX][tY-1]);
-                        checker[tX][tY-1]=true;
-                    }
-                    if(Node.isInField(tX,tY+1)&&!checker[tX][tY+1]){
-                        openingQueue.add(field[tX][tY+1]);
-                        checker[tX][tY+1]=true;
+                    for(int i=-1;i<2;i++){
+                        for(int j=-1;j<2;j++){
+                            if(i==0&&j==0)continue;
+                            if(Node.isInField(tX+i,tY+j)&&!checker[tX+i][tY+j]){
+                                openingQueue.add(field[tX+i][tY+j]);
+                                checker[tX+i][tY+j]=true;
+                            }
+                        }
                     }
                     break;
                 case -1:
+                    gameOver(false);
                     return -1;
             }
         }
@@ -77,15 +81,21 @@ public class Game implements GameInterface {
         nowTurn=(nowTurn+1)%totalPlayer;
     }
 
-    public void gameOver(){
+    public void gameOver(boolean flag){
+        if(flag)
+            server.BroadCast("win ");
+        else server.BroadCast("lose ");
 
     }
     @Override
     public void initiating(int width,int height,int mineNum,int totalPlayer) {
         this.totalPlayer=totalPlayer;
         this.mineNum=mineNum;
+        this.width=width;
+        this.height=height;
         Node.width=width;
         Node.height=height;
+        remains=width*height;
     }
 
     @Override

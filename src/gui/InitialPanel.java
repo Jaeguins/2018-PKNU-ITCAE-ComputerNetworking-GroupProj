@@ -34,8 +34,8 @@ class JoinAction implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		cont.removeAll();
-		cont.repaint();
 		cont.add(new JoinPanel(cont));
+		cont.repaint();
 	}
 
 	@Override
