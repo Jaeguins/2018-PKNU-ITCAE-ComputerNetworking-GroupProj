@@ -16,7 +16,7 @@ public class LosePanel extends JPanel{
 		setBounds(0, 0, 300, 200);
 		setBackground(new Color(128, 100, 190));
 		JLabel lose = new JLabel("ÆÐ¹è");
-		
+		add(lose);
 	}
 	
 }

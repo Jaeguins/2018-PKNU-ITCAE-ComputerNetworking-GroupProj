@@ -67,8 +67,8 @@ public class CustButton extends JButton {
     public void Ping(boolean value){
         new Thread(() -> {
             if(value)
-            setBackground(Color.RED);
-            else setBackground(Color.GREEN);
+            setBackground(Color.GREEN);
+            else setBackground(Color.RED);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

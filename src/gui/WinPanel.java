@@ -15,7 +15,7 @@ public class WinPanel extends JPanel{
 		setBounds(0, 0, 300, 200);
 		setBackground(new Color(128, 100, 190));
 		JLabel victory = new JLabel("½Â¸®");
-		
+		add(victory);
 	}
 	
 }

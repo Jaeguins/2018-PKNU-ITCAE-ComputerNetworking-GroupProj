@@ -32,27 +32,31 @@ public class Server implements ServerInterface{
         OutputStream out;
         @Override
         public void run() {
-            super.run();
-            PushMsg(index,index+diff+game.width+diff+game.height+diff+game.mineNum+diff);
-            if(index==1)BroadCast("start ");
-            while(ing){
-                String type=in.next();
-                int x=0,y=0,playerNum=0;
-                switch(type){
-                    case "L":
-                         x=in.nextInt();
-                         y=in.nextInt();
-                         playerNum=in.nextInt();
-                        game.leftClick(x,y,playerNum);
-                        break;
-                    case "R":
-                         x=in.nextInt();
-                         y=in.nextInt();
-                         playerNum=in.nextInt();
-                        game.rightClick(x,y,playerNum);
-                        break;
+            try {
+                super.run();
+                PushMsg(index, index + diff + game.width + diff + game.height + diff + game.mineNum + diff);
+                if (index == 1) BroadCast("start ");
+                while (ing) {
+                    String type = in.next();
+                    int x = 0, y = 0, playerNum = 0;
+                    switch (type) {
+                        case "L":
+                            x = in.nextInt();
+                            y = in.nextInt();
+                            playerNum = in.nextInt();
+                            game.leftClick(x, y, playerNum);
+                            break;
+                        case "R":
+                            x = in.nextInt();
+                            y = in.nextInt();
+                            playerNum = in.nextInt();
+                            game.rightClick(x, y, playerNum);
+                            break;
+                    }
+                    System.out.println("server : " + playerNum + diff + type + diff + x + diff + y + diff);
                 }
-                System.out.println("click"+diff+type+diff+"received"+x+diff+y+diff+playerNum+diff);
+            }catch(Exception e){
+                System.out.println("connection lost");
             }
         }
     }

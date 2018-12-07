@@ -63,7 +63,7 @@ public class Client implements ClientInterface {
                             view.gameOver(false);
                             return;
                     }
-                    System.out.println("click received"+x+" "+y+" : "+type);
+                    System.out.println("client : "+x+" "+y+" : "+type);
                 }
             }
             catch (IOException e){

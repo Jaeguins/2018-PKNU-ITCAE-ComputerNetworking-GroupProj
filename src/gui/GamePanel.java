@@ -36,7 +36,8 @@ public class GamePanel extends JPanel {
         inst.frame.setSize(100+CustButton.cellWidth*width,150+CustButton.cellHeight*height);
     }
     public void gameOver(boolean flag){
-        inst.frame.removeAll();
+        cont.removeAll();
+        cont.repaint();
         if(flag){
             cont.add(new WinPanel(cont));
         }else{
