@@ -21,27 +21,30 @@ public class CreatePanel extends JPanel{
 	Container cont;
 	JLabel widthLabel, heightLabel, bombLabel;
 	JTextField widthInput, heightInput, bombInput;
-	JButton create;
+	JButton create,back;
 	public CreatePanel(Container conte) {
 		super();
 		this.cont=conte;
-		setBounds(0, 0, 300, 200);
+		Main.Instance.frame.setSize(300,300);
+		setBounds(0, 0, 300, 250);
 		setBackground(new Color(150, 100, 80));
 		setLayout(null);
-		widthLabel = new JLabel("widthInput");
-		 heightLabel = new JLabel("heightInput");
-		 bombLabel = new JLabel("bombInput");
+		widthLabel = new JLabel("Width");
+		 heightLabel = new JLabel("Height");
+		 bombLabel = new JLabel("Mines");
 		 widthInput = new JTextField();
 		 heightInput = new JTextField();
 		 bombInput = new JTextField();
 		 create = new JButton("생성");
+		 back=new JButton("메인");
 		widthInput.setBounds(90, 10, 50, 20);
 		heightInput.setBounds(90, 50, 50, 20);
 		bombInput.setBounds(90, 100, 50, 20);
 		widthLabel.setBounds(10, 10, 50, 20);
 		heightLabel.setBounds(10, 50, 50, 20);
 		bombLabel.setBounds(10, 100, 50, 20);
-		create.setBounds(10,150,50,20);
+		create.setBounds(10,150,150,20);
+		back.setBounds(10,200,180,20);
 		add(widthInput);
 		add(heightInput);
 		add(bombInput);
@@ -49,6 +52,7 @@ public class CreatePanel extends JPanel{
 		add(heightLabel);
 		add(bombLabel);
 		add(create);
+		add(back);
 		create.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -93,6 +97,11 @@ public class CreatePanel extends JPanel{
 
 			}
 		});
+		back.addMouseListener(new GotoMainListener());
+		new Thread(() -> {
+			cont.revalidate();
+			cont.repaint();
+		}).start();
 	}
 
 }

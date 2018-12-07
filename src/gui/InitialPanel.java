@@ -1,5 +1,7 @@
 package gui;
 // 초기화면
+import Main.Main;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
@@ -21,6 +23,10 @@ public class InitialPanel extends JPanel{
 		add(create1);
 		join.addMouseListener(new JoinAction(cont));
 		create1.addMouseListener(new Creator(cont));
+		new Thread(() -> {
+			cont.revalidate();
+			cont.repaint();
+		}).start();
 	}
 
 }
@@ -35,7 +41,7 @@ class JoinAction implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		cont.removeAll();
 		cont.add(new JoinPanel(cont));
-		cont.repaint();
+		cont.revalidate();
 	}
 
 	@Override

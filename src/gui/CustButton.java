@@ -23,6 +23,10 @@ public class CustButton extends JButton {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
                 if(context.started&&CustButton.this.isEnabled()) {
                     switch(e.getButton()){
                         case MouseEvent.BUTTON1:
@@ -33,11 +37,6 @@ public class CustButton extends JButton {
                             break;
                     }
                 }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
             }
 
             @Override

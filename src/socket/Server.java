@@ -25,7 +25,6 @@ public class Server implements ServerInterface{
         public ServerThread(int index){
             this.index=index;
         }
-        int FirstConnect = 0;
         int index;
         byte[] data = new byte[100];
         Scanner in;
@@ -35,7 +34,10 @@ public class Server implements ServerInterface{
             try {
                 super.run();
                 PushMsg(index, index + diff + game.width + diff + game.height + diff + game.mineNum + diff);
-                if (index == 1) BroadCast("start ");
+                if (index == 1) {
+                    BroadCast("start ");
+                    s_socket.close();
+                }
                 while (ing) {
                     String type = in.next();
                     int x = 0, y = 0, playerNum = 0;
@@ -57,6 +59,11 @@ public class Server implements ServerInterface{
                 }
             }catch(Exception e){
                 System.out.println("connection lost");
+                try {
+                    c_socket[index].close();
+                }catch(IOException g){
+                    g.printStackTrace();
+                }
             }
         }
     }

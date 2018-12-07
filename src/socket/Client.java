@@ -58,15 +58,22 @@ public class Client implements ClientInterface {
                             break;
                         case "win":
                             view.gameOver(true);
+                            c_socket.close();
                             return;
                         case "lose":
                             view.gameOver(false);
+                            c_socket.close();
                             return;
                     }
                     System.out.println("client : "+x+" "+y+" : "+type);
                 }
             }
             catch (IOException e){
+                try {
+                    c_socket.close();
+                }catch(IOException g){
+                    g.printStackTrace();
+                }
                 e.printStackTrace();
             }
         }
