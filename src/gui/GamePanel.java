@@ -44,5 +44,10 @@ public class GamePanel extends JPanel {
             cont.add(new LosePanel(cont));
         }
     }
+    public void lost(){
+        cont.removeAll();
+        cont.repaint();
+        cont.add(new LostConnPanel(cont));
+    }
 }
 

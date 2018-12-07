@@ -22,7 +22,7 @@ public class Client implements ClientInterface {
         int FirstConnect = 0;
         byte[] data = new byte[100];
         Scanner scanner;
-        OutputStream out;
+        OutputStream out;   
         @Override
         public void run() {
             super.run();
@@ -64,6 +64,9 @@ public class Client implements ClientInterface {
                             view.gameOver(false);
                             c_socket.close();
                             return;
+                        case "lost":
+                            view.lost();
+                            c_socket.close();
                     }
                     System.out.println("client : "+x+" "+y+" : "+type);
                 }

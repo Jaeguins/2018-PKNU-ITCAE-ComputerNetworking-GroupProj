@@ -63,6 +63,8 @@ public class Server implements ServerInterface{
                     c_socket[index].close();
                 }catch(IOException g){
                     g.printStackTrace();
+                }finally{
+                    BroadCast("lost ");
                 }
             }
         }
@@ -97,6 +99,7 @@ public class Server implements ServerInterface{
 
     public void PushMsg(int index, String msg){
         try{
+            if(c_socket[index].isClosed())return;
             th[index].out.write(msg.getBytes());
         }
         catch (IOException e){
@@ -115,6 +118,7 @@ public class Server implements ServerInterface{
 
     public void BroadCast(String msg){
         for(int i = 0; i < n_socket; i++)
+
             PushMsg(i, msg);
     }
 
