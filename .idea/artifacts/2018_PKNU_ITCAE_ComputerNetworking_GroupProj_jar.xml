@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="2018-PKNU-ITCAE-ComputerNetworking-GroupProj:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/2018_PKNU_ITCAE_ComputerNetworking_GroupProj_jar</output-path>
+    <root id="archive" name="2018-PKNU-ITCAE-ComputerNetworking-GroupProj.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="2018-PKNU-ITCAE-ComputerNetworking-GroupProj" />
+    </root>
+  </artifact>
+</component>
