@@ -52,10 +52,10 @@ public class Game implements GameInterface {
             Node t=openingQueue.poll();
             t.setBaled(false);
             remains-=1;
+            server.BroadCast("open"+diff+t.getX()+diff+t.getY()+diff+t.getValue()+diff);
             if(remains==mineNum){
                 gameOver(true);
             }
-            server.BroadCast("open"+diff+t.getX()+diff+t.getY()+diff+t.getValue()+diff);
             int tX=t.getX(),tY=t.getY();
 
             switch(t.getValue()){
@@ -79,11 +79,17 @@ public class Game implements GameInterface {
     }
     private void nextTurn(){
         nowTurn=(nowTurn+1)%totalPlayer;
+        server.BroadCast("next "+nowTurn+" ");
     }
 
     public void gameOver(boolean flag){
-        if(flag)
+        if(flag){
+            try{
+                Thread.sleep(2000);
+            }catch(Exception e){}
             server.BroadCast("win ");
+        }
+
         else server.BroadCast("lose ");
 
     }

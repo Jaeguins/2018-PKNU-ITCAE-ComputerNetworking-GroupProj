@@ -12,6 +12,7 @@ public class GamePanel extends JPanel {
     Container cont;
     Main inst;
     JPanel fieldPanel;
+    JLabel turnInd;
     public CustButton[][] buttons;
     public boolean started;
     public int playerNum;
@@ -25,12 +26,15 @@ public class GamePanel extends JPanel {
         fieldPanel.setLayout(null);
         fieldPanel.setBounds(50,50,CustButton.cellWidth*width,CustButton.cellHeight*height);
         buttons=new CustButton[width][height];
+        turnInd=new JLabel();
+        turnInd.setBounds(50,10,100,30);
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
                 buttons[i][j]=new CustButton(this,i,j);
                 fieldPanel.add(buttons[i][j]);
             }
         }
+        cont.add(turnInd);
         cont.add(fieldPanel);
         cont.repaint();
         inst.frame.setSize(100+CustButton.cellWidth*width,150+CustButton.cellHeight*height);
@@ -42,6 +46,15 @@ public class GamePanel extends JPanel {
             cont.add(new WinPanel(cont));
         }else{
             cont.add(new LosePanel(cont));
+        }
+    }
+    public void nextTurn(int val){
+        if(val==playerNum){
+            turnInd.setText("Your Turn");
+            turnInd.setForeground(Color.GREEN);
+        }else{
+            turnInd.setText("Company's Turn");
+            turnInd.setForeground(Color.RED);
         }
     }
     public void lost(){

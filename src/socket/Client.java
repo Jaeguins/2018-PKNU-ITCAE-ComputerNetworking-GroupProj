@@ -36,10 +36,12 @@ public class Client implements ClientInterface {
                 while (ing){
                     int x=0,y=0;
                     String type=scanner.next();
+
                     switch(type){
                         case "start":
                             view.started=true;
                             System.out.println("game started");
+                            view.nextTurn(0);
                             break;
                         case "open":
                             x=scanner.nextInt();
@@ -67,11 +69,14 @@ public class Client implements ClientInterface {
                         case "lost":
                             view.lost();
                             c_socket.close();
+                        case "next":
+                            int val=scanner.nextInt();
+                            view.nextTurn(val);
                     }
                     System.out.println("client : "+x+" "+y+" : "+type);
                 }
             }
-            catch (IOException e){
+            catch (Exception e){
                 try {
                     c_socket.close();
                 }catch(IOException g){
